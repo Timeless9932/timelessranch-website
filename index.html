@@ -34,7 +34,6 @@
   .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:saturate(1.05) contrast(1.02)}
   .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(5,10,12,0.78) 8%, rgba(5,10,12,0.36) 55%, rgba(0,0,0,0.6) 100%)}
   .hero-inner{position:relative;z-index:3;padding:48px 42px;max-width:900px}
-  /* 3D metallic gold text */
   .hero h2{margin:0;font-size:44px;line-height:1.02;
     background: linear-gradient(180deg,#fff7e6,#f3e0b3 20%, #f2d78b 45%, #d6b14b 60%, #9b6a18 100%);
     -webkit-background-clip:text; background-clip:text; color:transparent;
@@ -228,7 +227,6 @@
 <!-- WhatsApp quick chat (colored official-looking icon) -->
 <a class="whatsapp" href="https://wa.me/2347064868593?text=Hello%20Timeless%20Ranch" target="_blank" title="WhatsApp">
   <div class="wa-bg" aria-hidden="true">
-    <!-- WhatsApp SVG (green circle + white phone icon) -->
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <circle cx="12" cy="12" r="12" fill="#25D366"/>
       <path d="M17.56 6.44a9.46 9.46 0 0 0-13.38 13.38L3 21l1.22-1.6A9.46 9.46 0 0 0 17.56 6.44z" fill="#fff" opacity="0.06"/>
@@ -240,11 +238,11 @@
 <script>
 /* =================== CONFIG =================== */
 const EXTS = ['.jpg','.jpeg','.png','.webp'];
-const AG_PREFIXES = ['agri','farm','produce','poultry','market','vegetable','fruit','agriculture'];
-const ES_PREFIXES = ['estate','house','home','plot','property','land','building'];
-const TR_PREFIXES = ['transport','truck','bus','js','johsam','coach','vehicle'];
+const AG_PREFIXES = ['agri','farm','produce','poultry','market','vegetable','fruit','agriculture','agri-'];
+const ES_PREFIXES = ['estate','house','home','plot','property','land','building','estate-'];
+const TR_PREFIXES = ['transport','truck','bus','johsam','js','coach','vehicle','transport-'];
 const BN_PREFIXES = ['bundle','package','bundle-','package-'];
-const HERO_PREFIXES = ['hero','banner','main-hero','mainbanner'];
+const HERO_PREFIXES = ['hero','banner','main-hero','mainbanner','hero-'];
 
 const EXECUTIVES = [
   {name:'John Unyime', role:'Chief Executive Officer — CEO', phone:'+2347064868593'},
@@ -255,22 +253,45 @@ const EXECUTIVES = [
 ];
 
 /* ========== utilities ========== */
+/* Try GET (some hosts block HEAD). We return true if resource exists (status 200..299). */
 async function headOK(path){
-  try{ const r = await fetch(path, {method:'HEAD'}); return r.ok; }catch(e){ return false; }
+  try{
+    const r = await fetch(path, {method:'GET', cache:'no-store'});
+    return r && r.ok;
+  }catch(e){ return false; }
 }
-async function findFirst(prefixList, max=20){
-  for(const p of prefixList){
-    for(const ext of EXTS){
-      const u = `assets/${p}${ext}`;
-      if(await headOK(u)) return u;
-    }
+
+/* Try many filename patterns and casings */
+function generateCandidates(base, max=10){
+  const out = [];
+  const forms = [
+    s=>s,
+    s=>s.toLowerCase(),
+    s=>s.toUpperCase(),
+    s=>s.replace(/\s+/g,'-'),
+    s=>s.replace(/\s+/g,'_'),
+    s=>s.replace(/[^a-z0-9\-]/ig,'').toLowerCase()
+  ];
+  for(const f of forms){
+    const name = f(base);
+    for(const ext of EXTS) out.push(`assets/${name}${ext}`);
     for(let i=1;i<=max;i++){
       for(const ext of EXTS){
-        const a = `assets/${p}-${i}${ext}`;
-        const b = `assets/${p}${i}${ext}`;
-        if(await headOK(a)) return a;
-        if(await headOK(b)) return b;
+        out.push(`assets/${name}-${i}${ext}`);
+        out.push(`assets/${name}_${i}${ext}`);
+        out.push(`assets/${name}${i}${ext}`);
       }
+    }
+  }
+  // unique
+  return Array.from(new Set(out));
+}
+
+async function findFirst(prefixList, max=20){
+  for(const p of prefixList){
+    const cand = generateCandidates(p, max);
+    for(const u of cand){
+      if(await headOK(u)) return u;
     }
   }
   return null;
@@ -278,16 +299,9 @@ async function findFirst(prefixList, max=20){
 async function collectAll(prefixList, max=50){
   const out=[];
   for(const p of prefixList){
-    for(const ext of EXTS){
-      const s = `assets/${p}${ext}`;
-      if(await headOK(s)) out.push(s);
-    }
-    for(let i=1;i<=max;i++){
-      for(const ext of EXTS){
-        const a = `assets/${p}-${i}${ext}`, b = `assets/${p}${i}${ext}`;
-        if(await headOK(a)) out.push(a);
-        if(await headOK(b)) out.push(b);
-      }
+    const cand = generateCandidates(p, max);
+    for(const u of cand){
+      if(await headOK(u)) out.push(u);
     }
   }
   return Array.from(new Set(out));
@@ -365,7 +379,8 @@ function detectCatsFromName(src){
     const variants = [
       `exec-${initials}`,
       `exec-${x.name.toLowerCase().replace(/\s+/g,'-')}`,
-      `${x.name.toLowerCase().replace(/\s+/g,'-')}-exec`
+      `${x.name.toLowerCase().replace(/\s+/g,'-')}-exec`,
+      x.name.toLowerCase().replace(/\s+/g,'-')
     ];
     for(const v of variants){
       for(const e of EXTS){
@@ -421,9 +436,10 @@ function filterGallery(cat){
 }
 function scrollToBundles(){ document.getElementById('bundles').scrollIntoView({behavior:'smooth', block:'start'}); }
 function scrollToHero(){ document.getElementById('hero-section').scrollIntoView({behavior:'smooth', block:'center'}); }
-function exploreServices(){ document.getElementById('services').scrollIntoView({behavior:'smooth', block:'start'}); }
+function exploreServices(){ document.getElementById('services').scrollIntoView({behavior:'smooth', block:'start'})
 
 /* ========== LIGHTBOX implementation (in-page) ========== */
+}
 const lightbox = document.getElementById('lightbox');
 const lbImg = document.getElementById('lightbox-img');
 const lbCaption = document.getElementById('lightbox-caption');
@@ -432,11 +448,10 @@ let lbList = []; // array of srcs currently in lightbox
 let lbPos = 0;
 
 function openLightboxFromElement(imgEl){
-  // build list from currently visible gallery images (so navigation matches filtered view)
   const visible = Array.from(document.querySelectorAll('#gallery img')).filter(i=> i.style.display!=='none');
   const list = visible.map(i=> i.src);
   const start = list.indexOf(imgEl.src);
-  if(start<0){ // fallback: open single
+  if(start<0){
     openLightboxWithList([imgEl.src], 0);
   }else{
     openLightboxWithList(list, start);
@@ -458,7 +473,6 @@ function updateLightbox(){
   lbImg.alt = src.split('/').pop();
   lbCaption.textContent = lbImg.alt;
   lbIndex.textContent = `${lbPos+1} / ${lbList.length}`;
-  // prefetch neighbors
   if(lbList[lbPos+1]) new Image().src = lbList[lbPos+1];
   if(lbList[lbPos-1]) new Image().src = lbList[lbPos-1];
 }
