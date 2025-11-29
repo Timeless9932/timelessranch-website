@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Timeless Ranch Group — Agriculture · Real Estate · JOHSAM Express</title>
+<style>
+  /* --- Theme colors --- */
+  :root{
+    --gold:#d4b24f; --deep-gold:#a66f10; --green:#2e8f46; --muted:#9aa3a6;
+    --bg:#061018; --card:#0f1416; --white:#fff; --glass:rgba(255,255,255,0.04);
+    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  }
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,#051018 0%, #0b1214 100%);color:var(--white);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1220px;margin:20px auto;padding:18px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  /* logo moved closer to center */
+  .brand{display:flex;align-items:center;gap:12px;flex:1;justify-content:center}
+  .brand img{height:68px;border-radius:10px;object-fit:contain;background:linear-gradient(135deg,rgba(255,255,255,0.02),rgba(0,0,0,0.15));padding:6px}
+  .brand .titles{text-align:left;margin-left:8px}
+  h1{margin:0;font-size:20px}
+  .gold{color:var(--gold);font-weight:800}
+  nav{display:flex;gap:10px;align-items:center}
+  nav a{color:rgba(255,255,255,0.9);text-decoration:none;padding:8px 12px;border-radius:8px}
+  /* stronger Explore Services button */
+  nav a.primary{
+    background:linear-gradient(90deg,var(--gold),var(--deep-gold));
+    color:#071118;font-weight:800;padding:10px 16px;border-radius:10px;
+    box-shadow:0 6px 18px rgba(166,124,26,0.12), 0 2px 6px rgba(0,0,0,0.6);
+  }
+
+  /* --- Hero with 3D metallic gold title --- */
+  .hero{margin-top:16px;border-radius:16px;overflow:hidden;position:relative;min-height:420px;box-shadow:0 14px 50px rgba(0,0,0,0.6)}
+  .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:saturate(1.05) contrast(1.02)}
+  .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(5,10,12,0.78) 8%, rgba(5,10,12,0.36) 55%, rgba(0,0,0,0.6) 100%)}
+  .hero-inner{position:relative;z-index:3;padding:48px 42px;max-width:900px}
+  /* 3D metallic gold text */
+  .hero h2{margin:0;font-size:44px;line-height:1.02;
+    background: linear-gradient(180deg,#fff7e6,#f3e0b3 20%, #f2d78b 45%, #d6b14b 60%, #9b6a18 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow:
+      0 1px 0 rgba(255,255,255,0.06),
+      0 6px 10px rgba(0,0,0,0.6);
+    font-weight:900;
+  }
+  .hero h2::after{content:"";display:block;height:4px;width:160px;margin-top:10px;background:linear-gradient(90deg, rgba(255,255,255,0.12), rgba(255,255,255,0));border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,0.5)}
+  .hero .lead{color:rgba(255,255,255,0.94);margin:10px 0 0;font-size:16px}
+  .hero .actions{margin-top:18px;display:flex;gap:10px}
+
+  /* Email support button - gold style */
+  .btn-email{
+    background:linear-gradient(180deg,var(--gold),var(--deep-gold));
+    color:#071118;padding:10px 14px;border-radius:10px;border:0;font-weight:700;
+    box-shadow:0 6px 18px rgba(166,124,26,0.12);
+    text-decoration:none;
+  }
+  .btn-light{
+    background:transparent;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);color:var(--white);text-decoration:none;
+  }
+
+  /* --- Services --- */
+  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));padding:16px;border-radius:12px;min-height:170px;display:flex;flex-direction:column;gap:8px;cursor:pointer;transition:transform .18s, box-shadow .18s}
+  .card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,0.6)}
+  .card .thumb{height:110px;border-radius:10px;background-size:cover;background-position:center}
+  .card h3{margin:0}.muted{color:var(--muted)}
+
+  /* --- Controls + gallery --- */
+  .controls{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:12px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
+  .filters button{padding:8px 12px;border-radius:8px;border:0;background:rgba(255,255,255,0.04);color:var(--white);cursor:pointer}
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+  .gallery img{width:100%;height:150px;object-fit:cover;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,0.6);cursor:pointer;transition:transform .12s}
+  .gallery img:hover{transform:scale(1.03)}
+
+  /* bundle section (separate) */
+  .bundles{margin-top:26px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.07));padding:14px;border-radius:12px}
+  .bundle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .bundle-grid img{width:100%;height:220px;object-fit:cover;border-radius:10px;cursor:pointer}
+
+  /* --- Lightbox --- */
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.84);display:none;align-items:center;justify-content:center;z-index:9999;padding:18px}
+  .lightbox-inner{max-width:1100px;width:100%;max-height:90vh;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .lightbox img{max-width:100%;max-height:78vh;border-radius:8px;object-fit:contain}
+  .lightbox .meta{color:var(--muted);display:flex;justify-content:space-between;width:100%}
+  .lightbox .nav{display:flex;gap:8px}
+  .btn{background:rgba(255,255,255,0.06);border:0;padding:8px 10px;border-radius:8px;color:var(--white);cursor:pointer}
+
+  /* --- Exec/contact --- */
+  .split{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:20px}
+  .exec-list{background:var(--card);padding:12px;border-radius:10px}
+  .exec{display:flex;gap:12px;align-items:center;padding:8px;border-bottom:1px dashed rgba(255,255,255,0.04)}
+  .exec:last-child{border-bottom:0}.avatar{min-width:56px;height:56px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#071118;background:linear-gradient(180deg,var(--gold),var(--deep-gold))}
+  .contact{background:var(--card);padding:14px;border-radius:10px;color:var(--muted)}
+
+  footer{text-align:center;margin-top:20px;color:rgba(255,255,255,0.5);font-size:13px;padding-bottom:12px}
+
+  /* WhatsApp floating: use colored WhatsApp SVG icon inside */
+  .whatsapp{position:fixed;right:18px;bottom:18px;background:transparent;height:66px;width:66px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:999;box-shadow:0 10px 30px rgba(0,0,0,0.45)}
+  .whatsapp .wa-bg{height:56px;width:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#20b858,#157a34)}
+  .whatsapp svg{height:32px;width:32px;display:block}
+
+  @media(max-width:980px){.services{grid-template-columns:repeat(2,1fr)} .gallery{grid-template-columns:repeat(2,1fr)} .bundle-grid{grid-template-columns:repeat(2,1fr)} .split{grid-template-columns:1fr}}
+  @media(max-width:560px){.services{grid-template-columns:1fr} .hero h2{font-size:28px} .bundle-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <nav>
+      <a href="#home" onclick="event.preventDefault(); scrollToHero()">Home</a>
+      <a href="#services" class="primary" onclick="event.preventDefault(); exploreServices()">Explore Services</a>
+    </nav>
+
+    <div class="brand" role="banner">
+      <img id="logo" src="assets/logo.png" alt="logo" onerror="this.style.display='none'">
+      <div class="titles">
+        <h1><span class="gold">TIMELESS</span> Ranch Group</h1>
+        <div style="font-size:12px;color:var(--muted)">Agriculture · Real Estate · JOHSAM Express Limited</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:center">
+      <a class="btn-email" href="mailto:timelessranchlimited@gmail.com" title="Email Support">Email Support</a>
+      <a style="padding:10px 14px;border-radius:8px;background:var(--green);color:#fff;text-decoration:none" href="tel:+2347064868593">Call Support</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="hero-section">
+    <div id="hero-bg" class="hero-bg" style="background-image:url('assets/hero.png')"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-inner">
+      <h2 id="hero-title"><span class="gold">TIMELESS</span> Ranch Group</h2>
+      <p class="lead" id="hero-tag">Where every step brings you closer to comfort — fresh produce, trusted real estate and reliable transport in one place.</p>
+      <div class="actions">
+        <a class="primary" href="#services" onclick="event.preventDefault(); exploreServices()" style="padding:10px 14px;border-radius:8px">Explore Services</a>
+        <a class="btn-light" href="mailto:timelessranchlimited@gmail.com">Contact Support</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="services" aria-label="Services">
+    <div class="card" data-cat="agri" id="card-agri">
+      <div class="thumb" id="img-agri" style="background-image:url('assets/agri-1.jpg')"></div>
+      <h3 class="gold-title">Agriculture — Fresh Produce</h3>
+      <p class="muted">Poultry, farm produce, vegetables, fruits — fresh and responsibly produced.</p>
+    </div>
+
+    <div class="card" data-cat="estate" id="card-estate">
+      <div class="thumb" id="img-estate" style="background-image:url('assets/estate-1.jpg')"></div>
+      <h3 class="gold-title">Real Estate — Plots & Houses</h3>
+      <p class="muted">Plots, serviced land and modern housing options for families and investors.</p>
+    </div>
+
+    <div class="card" data-cat="transport" id="card-transport">
+      <div class="thumb" id="img-transport" style="background-image:url('assets/transport-1.png')"></div>
+      <h3 class="gold-title">JOHSAM Express — Transport</h3>
+      <p class="muted">Passenger and cargo transport solutions — reliable and timely.</p>
+    </div>
+  </section>
+
+  <!-- Controls + gallery -->
+  <div class="controls">
+    <h3 class="gold-title">Gallery</h3>
+    <div class="filters">
+      <button onclick="filterGallery('all')">All</button>
+      <button onclick="filterGallery('agri')">Agriculture</button>
+      <button onclick="filterGallery('estate')">Real Estate</button>
+      <button onclick="filterGallery('transport')">Transport</button>
+      <button onclick="scrollToBundles()">Bundles</button>
+    </div>
+  </div>
+
+  <div id="gallery" class="gallery" aria-live="polite"></div>
+
+  <!-- Bundles (separate section) -->
+  <section id="bundles" class="bundles" aria-label="Bundles">
+    <h3 class="gold-title">Bundle Packages — Click to view</h3>
+    <p class="muted">Packaged deals that combine housing, produce and transport. Contact us for tailored bundles.</p>
+    <div id="bundle-grid" class="bundle-grid" style="margin-top:12px"></div>
+  </section>
+
+  <!-- Exec and Contact -->
+  <section class="split" id="executives">
+    <div class="exec-list">
+      <h3 class="gold-title">Meet the Executives</h3>
+      <div id="execs" style="margin-top:8px"></div>
+    </div>
+
+    <aside class="contact" id="contact">
+      <h3 class="gold-title">Contact & HQ</h3>
+      <p><strong>Timeless Ranch Limited</strong></p>
+      <p>Headquarters: 30 Edet Osudu, Oron, Uyo — Akwa Ibom State</p>
+      <p>Email: <a href="mailto:timelessranchlimited@gmail.com">timelessranchlimited@gmail.com</a></p>
+      <p>Contact: <a href="tel:+2347064868593">+234 706 486 8593</a></p>
+      <div style="margin-top:12px">
+        <a class="primary" style="padding:10px 14px;border-radius:8px;color:#071118;display:inline-block" href="https://wa.me/2347064868593?text=Hello%20Timeless%20Ranch" target="_blank">Chat on WhatsApp</a>
+      </div>
+      <div style="margin-top:12px">
+        <iframe src="https://www.google.com/maps?q=30%20Edet%20Osudu%20Oron%20Uyo%20Akwa%20Ibom%20Nigeria&output=embed" style="width:100%;height:180px;border:0;border-radius:8px"></iframe>
+      </div>
+    </aside>
+  </section>
+
+  <footer>© <span id="year"></span> Timeless Ranch Group — All rights reserved. Powered by AI · Built by Timeless Unyime.</footer>
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" role="dialog" aria-hidden="true">
+  <div class="lightbox-inner">
+    <div style="display:flex;justify-content:space-between;align-items:center;width:100%">
+      <div style="color:var(--muted)" id="lightbox-caption"></div>
+      <div class="nav">
+        <button class="btn" id="prev-btn" title="Previous">Prev</button>
+        <button class="btn" id="next-btn" title="Next">Next</button>
+        <button class="btn" id="close-btn" title="Close">Close</button>
+      </div>
+    </div>
+    <img id="lightbox-img" src="" alt="">
+    <div style="width:100%;display:flex;justify-content:center;gap:10px">
+      <small style="color:var(--muted)" id="lightbox-index"></small>
+    </div>
+  </div>
+</div>
+
+<!-- WhatsApp quick chat (colored official-looking icon) -->
+<a class="whatsapp" href="https://wa.me/2347064868593?text=Hello%20Timeless%20Ranch" target="_blank" title="WhatsApp">
+  <div class="wa-bg" aria-hidden="true">
+    <!-- WhatsApp SVG (green circle + white phone icon) -->
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="12" cy="12" r="12" fill="#25D366"/>
+      <path d="M17.56 6.44a9.46 9.46 0 0 0-13.38 13.38L3 21l1.22-1.6A9.46 9.46 0 0 0 17.56 6.44z" fill="#fff" opacity="0.06"/>
+      <path d="M16.08 14.9c-.27-.14-1.6-.78-1.85-.87-.25-.09-.43-.14-.61.14-.17.27-.68.87-.83 1.04-.15.17-.3.19-.57.06-.27-.13-1.13-.42-2.16-1.33-.8-.7-1.34-1.56-1.5-1.83-.16-.27-.02-.42.12-.56.12-.12.27-.3.41-.45.14-.15.18-.27.28-.45.09-.17.05-.31-.02-.45-.08-.13-.61-1.47-.84-2.02-.22-.53-.45-.45-.61-.46-.16 0-.34-.01-.52-.01-.17 0-.45.06-.69.31-.24.25-.9.88-.9 2.15 0 1.27.92 2.5 1.05 2.67.13.17 1.8 2.9 4.37 3.95 2.57 1.05 2.57.7 3.03.66.47-.03 1.52-.62 1.74-1.22.22-.6.22-1.11.16-1.22-.06-.11-.23-.17-.5-.31z" fill="#ffffff"/>
+    </svg>
+  </div>
+</a>
+
+<script>
+/* =================== CONFIG =================== */
+const EXTS = ['.jpg','.jpeg','.png','.webp'];
+const AG_PREFIXES = ['agri','farm','produce','poultry','market','vegetable','fruit','agriculture'];
+const ES_PREFIXES = ['estate','house','home','plot','property','land','building'];
+const TR_PREFIXES = ['transport','truck','bus','js','johsam','coach','vehicle'];
+const BN_PREFIXES = ['bundle','package','bundle-','package-'];
+const HERO_PREFIXES = ['hero','banner','main-hero','mainbanner'];
+
+const EXECUTIVES = [
+  {name:'John Unyime', role:'Chief Executive Officer — CEO', phone:'+2347064868593'},
+  {name:'Mr. Sam Kufre', role:'Managing Director (MD)', phone:'+2348118879143'},
+  {name:'Catherine Anthony', role:'Admin Manager', phone:'+2347031374590'},
+  {name:'Detective Iboro John', role:'Security Advisor', phone:'+2348052427270'},
+  {name:'Christiana Sam', role:'Accountant', phone:'+2348132869966'}
+];
+
+/* ========== utilities ========== */
+async function headOK(path){
+  try{ const r = await fetch(path, {method:'HEAD'}); return r.ok; }catch(e){ return false; }
+}
+async function findFirst(prefixList, max=20){
+  for(const p of prefixList){
+    for(const ext of EXTS){
+      const u = `assets/${p}${ext}`;
+      if(await headOK(u)) return u;
+    }
+    for(let i=1;i<=max;i++){
+      for(const ext of EXTS){
+        const a = `assets/${p}-${i}${ext}`;
+        const b = `assets/${p}${i}${ext}`;
+        if(await headOK(a)) return a;
+        if(await headOK(b)) return b;
+      }
+    }
+  }
+  return null;
+}
+async function collectAll(prefixList, max=50){
+  const out=[];
+  for(const p of prefixList){
+    for(const ext of EXTS){
+      const s = `assets/${p}${ext}`;
+      if(await headOK(s)) out.push(s);
+    }
+    for(let i=1;i<=max;i++){
+      for(const ext of EXTS){
+        const a = `assets/${p}-${i}${ext}`, b = `assets/${p}${i}${ext}`;
+        if(await headOK(a)) out.push(a);
+        if(await headOK(b)) out.push(b);
+      }
+    }
+  }
+  return Array.from(new Set(out));
+}
+function detectCatsFromName(src){
+  const name = src.split('/').pop().toLowerCase();
+  const cats = [];
+  if(/(agri|farm|produce|poultry|market|vegetable|fruit|agriculture)/.test(name)) cats.push('agri');
+  if(/(estate|house|home|plot|property|land|building)/.test(name)) cats.push('estate');
+  if(/(transport|truck|bus|johsam|js|coach|vehicle)/.test(name)) cats.push('transport');
+  if(/(bundle|package)/.test(name)) cats.push('bundle');
+  if(/(hero|banner|main-hero|mainbanner)/.test(name)) cats.push('hero');
+  if(cats.length===0) cats.push('all');
+  return cats;
+}
+
+/* ================= INIT ================= */
+(async function init(){
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // hero
+  const hero = await findFirst(HERO_PREFIXES, 8);
+  if(hero) document.getElementById('hero-bg').style.backgroundImage = `url('${hero}')`;
+
+  // logo
+  const logo = await findFirst(['logo'], 4);
+  if(logo){ const L = document.getElementById('logo'); L.src = logo; L.style.display='inline-block'; }
+
+  // service card images
+  const ag = await findFirst(AG_PREFIXES, 10);
+  if(ag) document.getElementById('img-agri').style.backgroundImage = `url('${ag}')`;
+  const es = await findFirst(ES_PREFIXES, 10);
+  if(es) document.getElementById('img-estate').style.backgroundImage = `url('${es}')`;
+  const tr = await findFirst(TR_PREFIXES, 10);
+  if(tr) document.getElementById('img-transport').style.backgroundImage = `url('${tr}')`;
+
+  // Gallery: exclude bundle images on first load
+  const mainPrefixes = ['hero','agri','farm','produce','market','estate','plot','transport','truck','johsam','js'];
+  const mainGallery = await collectAll(mainPrefixes, 40);
+  const ordered = [];
+  if(hero) ordered.push(hero);
+  mainGallery.forEach(u=> { if(!ordered.includes(u)) ordered.push(u); });
+
+  // render gallery images with lazy loading
+  const galleryEl = document.getElementById('gallery');
+  ordered.slice(0,80).forEach((src, idx)=>{
+    const img = document.createElement('img');
+    img.src = src;
+    img.loading = 'lazy';
+    img.alt = src.split('/').pop();
+    img.dataset.cats = detectCatsFromName(src).join(',');
+    img.dataset.index = idx; // index for lightbox sequence
+    galleryEl.appendChild(img);
+    img.addEventListener('click', ()=> openLightboxFromElement(img));
+  });
+
+  // Bundles section
+  const bundleList = await collectAll(BN_PREFIXES, 40);
+  const bundleGrid = document.getElementById('bundle-grid');
+  bundleList.slice(0,60).forEach((src, idx)=>{
+    const i = document.createElement('img');
+    i.src = src; i.loading='lazy'; i.alt = src.split('/').pop();
+    i.dataset.index = 'b'+idx;
+    bundleGrid.appendChild(i);
+    i.addEventListener('click', ()=> openLightboxWithList(bundleList, idx));
+  });
+
+  // Executives
+  const execsEl = document.getElementById('execs');
+  for(const x of EXECUTIVES){
+    const initials = x.name.split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase();
+    const wrapper = document.createElement('div'); wrapper.className='exec';
+    const avatar = document.createElement('div'); avatar.className='avatar';
+    let execImg = null;
+    const variants = [
+      `exec-${initials}`,
+      `exec-${x.name.toLowerCase().replace(/\s+/g,'-')}`,
+      `${x.name.toLowerCase().replace(/\s+/g,'-')}-exec`
+    ];
+    for(const v of variants){
+      for(const e of EXTS){
+        const p = `assets/${v}${e}`;
+        // eslint-disable-next-line no-await-in-loop
+        if(await headOK(p)){ execImg = p; break; }
+      }
+      if(execImg) break;
+    }
+    if(execImg){ avatar.style.backgroundImage=`url('${execImg}')`; avatar.style.backgroundSize='cover'; avatar.style.backgroundPosition='center'; avatar.textContent=''; }
+    else avatar.textContent = initials;
+
+    const meta = document.createElement('div');
+    const strong = document.createElement('strong'); strong.textContent = x.name;
+    const small = document.createElement('small'); small.style.display='block'; small.textContent = x.role;
+    const phoneDiv = document.createElement('div'); phoneDiv.style.marginTop='6px';
+    const aTel = document.createElement('a'); aTel.href = `tel:${x.phone}`; aTel.textContent = x.phone;
+    const aWa = document.createElement('a'); aWa.href = `https://wa.me/${x.phone.replace(/\D/g,'')}?text=Hello%20${encodeURIComponent(x.name)}`; aWa.target='_blank'; aWa.style.marginLeft='8px'; aWa.textContent = 'WhatsApp';
+    phoneDiv.appendChild(aTel); phoneDiv.appendChild(aWa);
+
+    meta.appendChild(strong); meta.appendChild(small); meta.appendChild(phoneDiv);
+    wrapper.appendChild(avatar); wrapper.appendChild(meta);
+    execsEl.appendChild(wrapper);
+    // clicking avatar opens a large version if available
+    avatar.addEventListener('click', ()=> {
+      if(execImg) openLightboxWithList([execImg], 0);
+    });
+  }
+
+  // card click filtering
+  document.querySelectorAll('.card[data-cat]').forEach(c=>{
+    c.addEventListener('click', ()=>{
+      document.querySelectorAll('.card').forEach(cc=>cc.style.boxShadow='none');
+      c.style.boxShadow = '0 12px 30px rgba(0,0,0,0.6)';
+      filterGallery(c.dataset.cat);
+      document.getElementById('gallery').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  // initial filter: show all (hero + main)
+  filterGallery('all');
+
+})(); /* end init */
+
+/* ========== filtering ========== */
+function filterGallery(cat){
+  const imgs = Array.from(document.querySelectorAll('#gallery img'));
+  if(cat==='all'){ imgs.forEach(i=> i.style.display='block'); return; }
+  imgs.forEach(img=>{
+    const cats = (img.dataset.cats||'').split(',');
+    if(cats.includes(cat)) img.style.display='block'; else img.style.display='none';
+  });
+}
+function scrollToBundles(){ document.getElementById('bundles').scrollIntoView({behavior:'smooth', block:'start'}); }
+function scrollToHero(){ document.getElementById('hero-section').scrollIntoView({behavior:'smooth', block:'center'}); }
+function exploreServices(){ document.getElementById('services').scrollIntoView({behavior:'smooth', block:'start'}); }
+
+/* ========== LIGHTBOX implementation (in-page) ========== */
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lightbox-img');
+const lbCaption = document.getElementById('lightbox-caption');
+const lbIndex = document.getElementById('lightbox-index');
+let lbList = []; // array of srcs currently in lightbox
+let lbPos = 0;
+
+function openLightboxFromElement(imgEl){
+  // build list from currently visible gallery images (so navigation matches filtered view)
+  const visible = Array.from(document.querySelectorAll('#gallery img')).filter(i=> i.style.display!=='none');
+  const list = visible.map(i=> i.src);
+  const start = list.indexOf(imgEl.src);
+  if(start<0){ // fallback: open single
+    openLightboxWithList([imgEl.src], 0);
+  }else{
+    openLightboxWithList(list, start);
+  }
+}
+
+function openLightboxWithList(list, startIndex=0){
+  lbList = list;
+  lbPos = Math.max(0, startIndex);
+  updateLightbox();
+  lightbox.style.display='flex';
+  lightbox.setAttribute('aria-hidden','false');
+}
+
+function updateLightbox(){
+  if(!lbList.length) return;
+  const src = lbList[lbPos];
+  lbImg.src = src;
+  lbImg.alt = src.split('/').pop();
+  lbCaption.textContent = lbImg.alt;
+  lbIndex.textContent = `${lbPos+1} / ${lbList.length}`;
+  // prefetch neighbors
+  if(lbList[lbPos+1]) new Image().src = lbList[lbPos+1];
+  if(lbList[lbPos-1]) new Image().src = lbList[lbPos-1];
+}
+
+document.getElementById('prev-btn').addEventListener('click', ()=> {
+  if(lbPos>0){ lbPos--; updateLightbox(); }
+});
+document.getElementById('next-btn').addEventListener('click', ()=> {
+  if(lbPos<lbList.length-1){ lbPos++; updateLightbox(); }
+});
+document.getElementById('close-btn').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', (e)=> { if(e.target===lightbox) closeLightbox(); });
+document.addEventListener('keydown', (e)=> {
+  if(lightbox.style.display==='flex'){
+    if(e.key==='Escape') closeLightbox();
+    if(e.key==='ArrowRight') { if(lbPos<lbList.length-1){ lbPos++; updateLightbox(); } }
+    if(e.key==='ArrowLeft') { if(lbPos>0){ lbPos--; updateLightbox(); } }
+  }
+});
+function closeLightbox(){
+  lightbox.style.display='none';
+  lightbox.setAttribute('aria-hidden','true');
+  lbList=[]; lbPos=0;
+}
+
+/* ================== small helpers ================== */
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
