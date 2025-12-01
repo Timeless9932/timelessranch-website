@@ -4,277 +4,335 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>TIMELESS Ranch Group — Demo</title>
-<meta name="description" content="Timeless Ranch demo gallery" />
+<meta name="description" content="Timeless Ranch demo gallery and contact" />
 <style>
-  /* Basic reset and layout */
-  :root{ --bg:#0b0f13; --panel:#0f1720; --muted:#9aa3ad; --accent:#d8b04a; --card:#0d1318; color-scheme: dark; }
-  body{ margin:0; font-family: Inter, system-ui, Arial; background: linear-gradient(180deg,#071019 0%, #0b1220 100%); color:#e6eef3; }
-  header{ display:flex; align-items:center; justify-content:space-between; padding:18px 28px; background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); }
-  .brand{ display:flex; gap:12px; align-items:center; }
-  .brand img{ width:48px; height:48px; object-fit:contain; border-radius:6px; }
-  .brand h1{ margin:0; font-size:18px; letter-spacing:0.6px; color:#fff; }
-  nav.filters{ display:flex; gap:8px; align-items:center; }
-  .btn{ background:transparent; border:1px solid rgba(255,255,255,0.06); padding:8px 12px; border-radius:8px; cursor:pointer; color:var(--muted); }
-  .btn.active{ background:var(--accent); color:#071019; border-color:transparent; font-weight:600; box-shadow:0 6px 18px rgba(0,0,0,0.5); }
-
-  /* Main */
-  main{ padding:28px; max-width:1200px; margin:0 auto; }
-  .gallery{ display:grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap:16px; margin-top:18px; }
-  .card{ background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.03)); border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.03); min-height:160px; display:flex; flex-direction:column; }
-  .card .thumb{ display:block; width:100%; height:160px; object-fit:cover; background:#07121a; cursor:pointer; }
-  .card .meta{ padding:10px; display:flex; justify-content:space-between; align-items:center; }
-  .meta .title{ font-size:13px; color:#fff; }
-  .meta .cat{ font-size:12px; color:var(--muted); }
-
-  /* Lightbox */
-  .lightbox{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(4,6,8,0.85); z-index:9999; }
-  .lightbox img{ max-width:92%; max-height:86%; box-shadow:0 20px 60px rgba(0,0,0,0.7); border-radius:6px; }
-  .lightbox .close{ position:absolute; top:20px; right:28px; color:#fff; font-size:18px; background:rgba(255,255,255,0.04); padding:8px 10px; border-radius:6px; cursor:pointer; }
-  .hint{ color:var(--muted); margin-top:8px; font-size:13px; }
-
-  footer{ text-align:center; padding:28px; color:var(--muted); }
-  @media (max-width:600px){ .card .thumb{ height:140px; } header{ padding:12px } main{ padding:14px } }
+  :root{
+    --bg:#0f1720;
+    --card:#0f2530;
+    --muted:#9aa6b0;
+    --accent:#f4a11b;
+    --glass: rgba(255,255,255,0.04);
+    --white: #ffffff;
+    --round:12px;
+    --gap:18px;
+  }
+  *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;}
+  body{margin:0;background:linear-gradient(180deg,#08131a 0%, #0f1b22 100%);color:var(--white);min-height:100vh;}
+  header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;gap:18px;background:transparent;}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{height:52px;width:52px;object-fit:contain;border-radius:8px;background:var(--glass);padding:6px}
+  .brand h1{font-size:18px;margin:0;letter-spacing:0.3px}
+  nav{display:flex;gap:12px;align-items:center}
+  nav a{color:rgba(255,255,255,0.85);text-decoration:none;padding:8px 12px;border-radius:10px}
+  nav a.active{background:linear-gradient(90deg,var(--accent),#c37a04);color:#071118;font-weight:700}
+  .hero{padding:46px 28px;background-image:radial-gradient(transparent, rgba(0,0,0,0.25)), url('assets/hero.jpg');background-size:cover;background-position:center;border-bottom:1px solid rgba(255,255,255,0.03)}
+  .hero-inner{max-width:1220px;margin:0 auto;display:flex;gap:28px;align-items:center}
+  .hero-text{flex:1}
+  .hero-text h2{margin:0;font-size:36px;line-height:1.05}
+  .hero-text p{color:var(--muted);margin:12px 0 18px}
+  .hero-ctas{display:flex;gap:12px}
+  .btn{background:var(--accent);color:#071118;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700}
+  .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--white)}
+  main{max-width:1220px;margin:26px auto;padding:0 18px}
+  h2.section{font-size:22px;margin:6px 0 16px}
+  /* filters */
+  .filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+  .filter-btn{background:var(--glass);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+  .filter-btn.active{background:linear-gradient(90deg,var(--accent),#c37a04);color:#071118}
+  /* grid */
+  .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,0.5);cursor:pointer}
+  .card img{width:100%;height:160px;object-fit:cover;display:block}
+  .card .meta{padding:10px 12px;background:rgba(0,0,0,0.15);display:flex;justify-content:space-between;align-items:center}
+  .card .meta .title{font-weight:700}
+  .card .meta .tag{font-size:12px;color:var(--muted)}
+  /* modal */
+  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);z-index:999}
+  .modal.open{display:flex}
+  .modal .box{max-width:90%;max-height:90%;background:#07131a;border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+  .modal img{max-width:100%;max-height:85vh;display:block}
+  .modal .caption{padding:10px;color:var(--muted);background:#07131a}
+  .close-btn{position:absolute;right:18px;top:18px;background:rgba(255,255,255,0.06);padding:8px;border-radius:8px;cursor:pointer}
+  /* contact */
+  .contact-row{display:grid;grid-template-columns:1fr 320px;gap:22px;margin-top:28px}
+  .card-panel{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:18px;border-radius:12px}
+  .contact .field{display:flex;flex-direction:column;margin-bottom:10px}
+  .contact input,.contact textarea{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--white)}
+  .map{width:100%;height:220px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.03)}
+  footer{padding:18px;text-align:center;color:var(--muted);margin-top:28px;font-size:13px}
+  /* quick whatsapp */
+  .whatsapp{position:fixed;right:20px;bottom:20px;background:#25D366;color:#fff;padding:14px;border-radius:50%;box-shadow:0 8px 20px rgba(0,0,0,0.4);z-index:1000;display:flex;align-items:center;justify-content:center;text-decoration:none}
+  .logo-thumb{width:96px;height:66px;object-fit:cover;border-radius:8px;display:block}
+  @media(max-width:880px){
+    .hero-inner{flex-direction:column;align-items:flex-start}
+    .contact-row{grid-template-columns:1fr}
+    .brand h1{display:none}
+  }
 </style>
 </head>
 <body>
 
 <header>
   <div class="brand">
-    <img src="assets/logo.jpg" alt="logo" onerror="this.style.display='none'"/>
+    <img src="assets/logo.jpg" alt="Timeless Ranch logo" />
     <div>
       <h1>TIMELESS Ranch Group</h1>
-      <div style="color:var(--muted); font-size:13px;">Agriculture · Real Estate · Transport</div>
+      <div style="color:var(--muted);font-size:13px">Agriculture · Real Estate · Transport</div>
     </div>
   </div>
-
-  <nav class="filters" aria-label="Gallery filters">
-    <button class="btn active" data-filter="all">All</button>
-    <button class="btn" data-filter="agriculture">Agriculture</button>
-    <button class="btn" data-filter="realestate">Real Estate</button>
-    <button class="btn" data-filter="transport">Transport</button>
-    <button class="btn" data-filter="bundles">Bundles</button>
+  <nav>
+    <a href="#" class="active">All</a>
+    <a href="#agriculture">Agriculture</a>
+    <a href="#realestate">Real Estate</a>
+    <a href="#transport">Transport</a>
+    <a href="#bundles">Bundles</a>
   </nav>
 </header>
 
-<main>
-  <div style="display:flex; justify-content:space-between; align-items:center;">
-    <div>
-      <h2 style="margin:0 0 6px 0;">Gallery</h2>
-      <div class="hint">Click an image to view it larger. Filters are above.</div>
+<section class="hero" role="region" aria-label="Welcome hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h2>Welcome to TIMELESS Ranch Group</h2>
+      <p>We deliver agricultural produce, property developments and transport services with integrity and timely logistics.</p>
+      <div class="hero-ctas">
+        <a class="btn" href="#gallery">Explore Gallery</a>
+        <a class="btn secondary" href="#contact">Contact Us</a>
+      </div>
+    </div>
+    <div style="max-width:420px;">
+      <img src="assets/hero.jpg" alt="Hero image" style="width:100%;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.5)" />
     </div>
   </div>
+</section>
 
-  <div class="gallery" id="gallery"></div>
+<main>
+  <section id="gallery">
+    <h2 class="section">Gallery</h2>
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="agriculture">Agriculture</button>
+      <button class="filter-btn" data-filter="realestate">Real Estate</button>
+      <button class="filter-btn" data-filter="transport">Transport</button>
+      <button class="filter-btn" data-filter="bundles">Bundles</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+      <!-- Agriculture -->
+      <div class="card" data-cat="agriculture" data-title="Market produce">
+        <img src="assets/agri-1.jpg" alt="Market produce" />
+        <div class="meta"><div class="title">Market produce</div><div class="tag">agriculture</div></div>
+      </div>
+      <div class="card" data-cat="agriculture" data-title="Veg stall">
+        <img src="assets/agri-2.jpg" alt="Veg stall" />
+        <div class="meta"><div class="title">Veg stall</div><div class="tag">agriculture</div></div>
+      </div>
+      <div class="card" data-cat="agriculture" data-title="Produce crates">
+        <img src="assets/agri-3.jpg" alt="Produce crates" />
+        <div class="meta"><div class="title">Produce crates</div><div class="tag">agriculture</div></div>
+      </div>
+      <div class="card" data-cat="agriculture" data-title="Field">
+        <img src="assets/agri-4.jpg" alt="Field" />
+        <div class="meta"><div class="title">Field</div><div class="tag">agriculture</div></div>
+      </div>
+      <div class="card" data-cat="agriculture" data-title="Root produce">
+        <img src="assets/agri-5.jpg" alt="Root produce" />
+        <div class="meta"><div class="title">Root produce</div><div class="tag">agriculture</div></div>
+      </div>
+      <div class="card" data-cat="agriculture" data-title="Palm">
+        <img src="assets/agri-6.jpg" alt="Palm" />
+        <div class="meta"><div class="title">Palm</div><div class="tag">agriculture</div></div>
+      </div>
+
+      <!-- Real estate -->
+      <div class="card" data-cat="realestate" data-title="Estate 1">
+        <img src="assets/estate-1.jpg" alt="Estate 1"/>
+        <div class="meta"><div class="title">Estate 1</div><div class="tag">realestate</div></div>
+      </div>
+      <div class="card" data-cat="realestate" data-title="Estate 2">
+        <img src="assets/estate-2.jpg" alt="Estate 2"/>
+        <div class="meta"><div class="title">Estate 2</div><div class="tag">realestate</div></div>
+      </div>
+      <div class="card" data-cat="realestate" data-title="Estate 3">
+        <img src="assets/estate-3.jpg" alt="Estate 3"/>
+        <div class="meta"><div class="title">Estate 3</div><div class="tag">realestate</div></div>
+      </div>
+      <div class="card" data-cat="realestate" data-title="Estate 4">
+        <img src="assets/estate-4.jpg" alt="Estate 4"/>
+        <div class="meta"><div class="title">Estate 4</div><div class="tag">realestate</div></div>
+      </div>
+
+      <!-- Transport -->
+      <div class="card" data-cat="transport" data-title="Delivery truck">
+        <img src="assets/transport-1.jpg" alt="Delivery truck"/>
+        <div class="meta"><div class="title">Delivery truck</div><div class="tag">transport</div></div>
+      </div>
+      <div class="card" data-cat="transport" data-title="Transport 2">
+        <img src="assets/transport-2.jpg" alt="Transport 2"/>
+        <div class="meta"><div class="title">Transport 2</div><div class="tag">transport</div></div>
+      </div>
+      <div class="card" data-cat="transport" data-title="Transport 3">
+        <img src="assets/transport-3.jpg" alt="Transport 3"/>
+        <div class="meta"><div class="title">Transport 3</div><div class="tag">transport</div></div>
+      </div>
+      <div class="card" data-cat="transport" data-title="Transport bike">
+        <img src="assets/transport-4.jpg" alt="Transport bike"/>
+        <div class="meta"><div class="title">Transport bike</div><div class="tag">transport</div></div>
+      </div>
+
+      <!-- Bundles / hero / logo -->
+      <div class="card" data-cat="bundles" data-title="Bundle">
+        <img src="assets/bundle-1.jpg" alt="Bundle"/>
+        <div class="meta"><div class="title">Bundle packages</div><div class="tag">bundles</div></div>
+      </div>
+      <div class="card" data-cat="bundles" data-title="Hero image">
+        <img src="assets/hero.jpg" alt="Hero image"/>
+        <div class="meta"><div class="title">Hero image</div><div class="tag">bundles</div></div>
+      </div>
+      <div class="card" data-cat="bundles" data-title="Logo">
+        <img src="assets/logo.jpg" alt="Logo"/>
+        <div class="meta"><div class="title">Logo</div><div class="tag">bundles</div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="contact" style="margin-top:28px">
+    <h2 class="section">Contact & Location</h2>
+    <div class="contact-row">
+      <div class="card-panel">
+        <h3 style="margin-top:0">Get in touch</h3>
+        <p style="color:var(--muted)">Send us a message and we'll respond to your email.</p>
+        <form class="contact" id="contactForm" onsubmit="return false">
+          <div class="field">
+            <label style="font-size:13px;color:var(--muted)">Your name</label>
+            <input id="name" placeholder="Full name" required/>
+          </div>
+          <div class="field">
+            <label style="font-size:13px;color:var(--muted)">Your email</label>
+            <input id="email" type="email" placeholder="you@example.com" required />
+          </div>
+          <div class="field">
+            <label style="font-size:13px;color:var(--muted)">Message</label>
+            <textarea id="message" rows="4" placeholder="Write a short message"></textarea>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn" onclick="mockSend()">Send message</button>
+            <a href="mailto:timelessranchlimited@gmail.com" class="btn secondary">Email</a>
+          </div>
+          <div id="sendStatus" style="margin-top:10px;color:var(--muted)"></div>
+        </form>
+      </div>
+
+      <aside class="card-panel">
+        <h4 style="margin:0 0 10px 0">Contact & HQ</h4>
+        <div style="color:var(--muted);margin-bottom:8px">
+          TIMELESS Ranch Limited<br/>
+          Headquarters: 30 Edet Osudu, Oron, Uyo — Akwa Ibom State
+        </div>
+        <div style="margin-bottom:6px"><strong>Email:</strong> <a href="mailto:timelessranchlimited@gmail.com" style="color:var(--accent)">timelessranchlimited@gmail.com</a></div>
+        <div style="margin-bottom:12px"><strong>Contact:</strong> <a href="tel:+2347064868593" style="color:var(--accent)">+234 706 486 8593</a></div>
+        <div class="map">
+          <iframe width="100%" height="100%" frameborder="0" style="border:0" src="https://www.google.com/maps?q=Akwa+Ibom+State&output=embed" allowfullscreen></iframe>
+        </div>
+      </aside>
+    </div>
+  </section>
 </main>
 
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox" role="dialog" aria-hidden="true">
-  <button class="close" id="lbClose">✕</button>
-  <img id="lbImage" alt="enlarged image">
+<footer>
+  © TIMELESS Ranch Group — Demo site. Edit the images in /assets.
+</footer>
+
+<!-- WhatsApp quick button -->
+<a href="https://wa.me/2347064868593?text=Hello%20Timeless%20Ranch" target="_blank" class="whatsapp" title="Chat on WhatsApp">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20.52 3.48A11.91 11.91 0 0012 0C5.37 0 .01 5.37.01 12 0 14.12.5 16.13 1.44 17.9L0 24l6.35-1.66A11.98 11.98 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.18-3.48-8.52zM12 21.5a9.45 9.45 0 01-4.79-1.23L6.2 20.3l.63-1.45A9.51 9.51 0 012.5 12C2.5 6.75 6.75 2.5 12 2.5S21.5 6.75 21.5 12 17.25 21.5 12 21.5z" />
+    <path d="M17.43 14.1c-.27-.14-1.6-.79-1.85-.88-.24-.09-.41-.14-.58.14-.16.27-.63.88-.77 1.06-.14.18-.27.2-.5.07-.24-.14-1.01-.37-1.92-1.18-.71-.64-1.2-1.43-1.34-1.67-.14-.27-.02-.41.12-.55.12-.12.27-.27.4-.4.13-.13.18-.2.27-.34.09-.14.04-.27-.02-.41-.07-.14-.58-1.4-.79-1.92-.21-.5-.43-.43-.58-.44-.16 0-.34-.01-.52-.01-.18 0-.46.06-.7.27-.24.22-.92.9-.92 2.18 0 1.28.95 2.52 1.08 2.7.13.18 1.86 2.88 4.5 3.93 3.52 1.46 3.52 0 4.15-.42.63-.42 2.03-1.85 2.32-3.63.29-1.78.29-3.31-.21-3.63-.51-.32-1.08-.46-1.35-.6z"/>
+  </svg>
+</a>
+
+<!-- modal -->
+<div id="modal" class="modal" aria-hidden="true">
+  <div class="box">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#07131a">
+      <div style="color:var(--muted);font-size:14px" id="modalTitle"></div>
+      <div class="close-btn" onclick="closeModal()">✕</div>
+    </div>
+    <div style="background:#07131a;display:flex;justify-content:center;align-items:center">
+      <img id="modalImg" src="" alt="" />
+    </div>
+    <div class="caption" id="modalCaption"></div>
+  </div>
 </div>
 
-<footer>© TIMELESS Ranch Group — Demo site. Edit the images in <code>/assets</code>.</footer>
-
 <script>
-/*
-  GALLERY DATA:
-  If any name below does not match exactly your assets folder,
-  update it (for example change agri-2.jpg to agri-2.jpeg).
-  The fallback code below will still try other extensions if needed.
-*/
-const images = [
-  // Agriculture
-  {file:'assets/agri-1.jpg', title:'Market produce', cat:'agriculture'},
-  {file:'assets/agri-2.jpg', title:'Veg stall', cat:'agriculture'},
-  {file:'assets/agri-3.jpg', title:'Produce crates', cat:'agriculture'},
-  {file:'assets/agri-4.jpg', title:'Field', cat:'agriculture'},
-  {file:'assets/agri-5.jpg', title:'Roots', cat:'agriculture'},
-  {file:'assets/agri-6.jpg', title:'Fresh harvest', cat:'agriculture'},
-  {file:'assets/agri-7.jpg', title:'Palm', cat:'agriculture'},
-  {file:'assets/agri-8.jpg', title:'Palm 2', cat:'agriculture'},
-  {file:'assets/agri-9.jpg', title:'Harvest', cat:'agriculture'},
-  {file:'assets/agri-10.jpg', title:'Poultry', cat:'agriculture'},
-  {file:'assets/agri-11.jpg', title:'Eggs', cat:'agriculture'},
-  {file:'assets/agri-12.jpg', title:'Agri 12', cat:'agriculture'},
-
-  // Bundles / marketing image
-  {file:'assets/bundle-1.jpg', title:'Bundle Offers', cat:'bundles'},
-
-  // Real estate
-  {file:'assets/estate-1.jpg', title:'Model house 1', cat:'realestate'},
-  {file:'assets/estate-2.jpg', title:'Model house 2', cat:'realestate'},
-  {file:'assets/estate-3.jpg', title:'Estate land', cat:'realestate'},
-  {file:'assets/estate-4.jpg', title:'Estate 4', cat:'realestate'},
-  {file:'assets/estate-5.jpg', title:'Estate 5', cat:'realestate'},
-  {file:'assets/estate-6.jpg', title:'Estate 6', cat:'realestate'},
-  {file:'assets/estate-7.jpg', title:'Estate 7', cat:'realestate'},
-  {file:'assets/estate-8.jpg', title:'Estate 8', cat:'realestate'},
-  {file:'assets/estate-9.jpg', title:'Estate 9', cat:'realestate'},
-  {file:'assets/estate-10.jpg', title:'Estate 10', cat:'realestate'},
-
-  // Transport
-  {file:'assets/transport-1.jpg', title:'Delivery truck', cat:'transport'},
-  {file:'assets/transport-2.jpg', title:'Transport 2', cat:'transport'},
-  {file:'assets/transport-3.jpg', title:'Transport 3', cat:'transport'},
-  {file:'assets/transport-4.jpg', title:'Transport bike', cat:'transport'},
-  {file:'assets/transport-5.jpg', title:'Transport 5', cat:'transport'},
-  {file:'assets/transport-6.jpg', title:'Transport 6', cat:'transport'},
-  {file:'assets/transport-7.jpg', title:'Transport 7', cat:'transport'},
-  {file:'assets/transport-8.jpg', title:'Transport 8', cat:'transport'},
-
-  // Hero and logo (kept in list so lightbox can show them if needed)
-  {file:'assets/hero.jpg', title:'Hero image', cat:'bundles'},
-  {file:'assets/logo.jpg', title:'Logo', cat:'bundles'}
-];
-
-/* Build gallery markup */
-const gallery = document.getElementById('gallery');
-
-function makeCard(item){
-  const div = document.createElement('div');
-  div.className = 'card';
-  div.dataset.cat = item.cat || 'all';
-
-  const img = document.createElement('img');
-  img.className = 'thumb';
-  img.alt = item.title || '';
-  img.loading = 'lazy';
-  img.dataset.src = item.file;   // keep original reference
-  img.src = item.file;           // initial attempt
-  // install fallback onerror (dynamically)
-  img.addEventListener('error', async function onerr(){
-    // if this error fired, try alternate extensions (jpg, jpeg, png, webp)
-    const exts = ['jpg','jpeg','png','webp'];
-    const base = item.file.replace(/\.\w+(\?.*)?$/,'');
-    for (const e of exts){
-      const cand = base + '.' + e;
-      if (cand === img.src) continue;
-      // try HEAD (best-effort)
-      try {
-        const res = await fetch(cand, { method:'HEAD', cache:'no-store' });
-        if (res.ok){
-          img.removeEventListener('error', onerr);
-          img.src = cand;
-          return;
-        }
-      } catch(err){
-        // HEAD may be blocked cross-origin — try setting src anyway
-      }
-      // set src and let browser try to load (onerror may re-fire)
-      img.src = cand;
-      // give it a moment — if it fails the error will re-fire and loop continues
-      return;
-    }
-    // no alternatives, remove handler
-    img.removeEventListener('error', onerr);
-  });
-
-  div.appendChild(img);
-
-  const meta = document.createElement('div');
-  meta.className = 'meta';
-  meta.innerHTML = `<div class="title">${item.title||''}</div><div class="cat">${item.cat||''}</div>`;
-  div.appendChild(meta);
-
-  // click to open lightbox
-  img.addEventListener('click', ()=> openLightbox(img.src, item.title));
-  return div;
-}
-
-function renderGallery(list){
-  gallery.innerHTML = '';
-  for (const it of list){
-    gallery.appendChild(makeCard(it));
-  }
-}
-
-/* Filters */
-document.querySelectorAll('.filters .btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.filters .btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    const f = btn.dataset.filter;
-    if (f === 'all'){
-      renderGallery(images);
-    } else {
-      renderGallery(images.filter(i=>i.cat === f));
-    }
-    // re-run lazy/fallback install (images already created attach error handler)
-  });
-});
-
-/* Lightbox code */
-const lightbox = document.getElementById('lightbox');
-const lbImage = document.getElementById('lbImage');
-const lbClose = document.getElementById('lbClose');
-
-function openLightbox(src, title){
-  lbImage.src = src;
-  lbImage.alt = title || '';
-  lightbox.style.display = 'flex';
-  lightbox.setAttribute('aria-hidden','false');
-}
-function closeLightbox(){
-  lightbox.style.display = 'none';
-  lightbox.setAttribute('aria-hidden','true');
-  lbImage.src = '';
-}
-lbClose.addEventListener('click', closeLightbox);
-lightbox.addEventListener('click', (e)=>{ if (e.target === lightbox) closeLightbox(); });
-
-/* Initialize */
-renderGallery(images);
-
-/* Accessibility: keyboard close */
-document.addEventListener('keydown', (e)=>{
-  if (e.key === 'Escape') closeLightbox();
-});
-
-/* Observe DOM for newly added images (if your site scripts later add images) */
-const mo = new MutationObserver(muts=>{
-  muts.forEach(m=>{
-    m.addedNodes.forEach(node=>{
-      if (node.nodeType !== 1) return;
-      if (node.tagName === 'IMG' && node.classList.contains('thumb')) {
-        // ensure click works
-        node.addEventListener('click', ()=> openLightbox(node.src, node.alt||''));
-      }
+  // filter buttons
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  filterBtns.forEach(btn=>{
+    btn.addEventListener('click', ()=> {
+      filterBtns.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      if(f === 'all'){ cards.forEach(c=>c.style.display='block'); return; }
+      cards.forEach(c=>{
+        c.style.display = (c.dataset.cat === f) ? 'block' : 'none';
+      });
     });
   });
-});
-mo.observe(document.body, { childList:true, subtree:true });
 
-/* A final defensive fallback: try to fix backgrounds and any element with data-src */
-async function finalSweep(){
-  // data-src elements
-  document.querySelectorAll('[data-src]').forEach(el=>{
-    const src = el.dataset.src;
-    if (src && (!el.src || el.src.endsWith('placeholder'))){
-      el.src = src;
-    }
+  // open modal on card click
+  const modal = document.getElementById('modal');
+  const modalImg = document.getElementById('modalImg');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalCaption = document.getElementById('modalCaption');
+
+  cards.forEach(c=>{
+    c.addEventListener('click', ()=> {
+      const img = c.querySelector('img').src;
+      const title = c.dataset.title || '';
+      modalImg.src = img;
+      modalTitle.textContent = title;
+      modalCaption.textContent = c.querySelector('.tag').textContent || '';
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+    });
   });
-  // inline background images (try HEAD to see if exists)
-  document.querySelectorAll('*').forEach(async el=>{
-    const bg = getComputedStyle(el).backgroundImage;
-    if (!bg || bg === 'none') return;
-    const m = bg.match(/url\(["']?(.+?)["']?\)/);
-    if (!m) return;
-    const full = m[1];
-    const base = full.replace(/\.\w+(\?.*)?$/,'');
-    const exts = ['jpg','jpeg','png','webp'];
-    for (const e of exts){
-      const cand = base + '.' + e;
-      try {
-        const r = await fetch(cand, { method:'HEAD', cache:'no-store' });
-        if (r.ok){
-          el.style.backgroundImage = `url("${cand}")`;
-          break;
-        }
-      } catch(e){}
-    }
+
+  function closeModal(){
+    modal.classList.remove('open');
+    modalImg.src='';
+    modal.setAttribute('aria-hidden','true');
+  }
+  modal.addEventListener('click', (e)=>{
+    if(e.target === modal) closeModal();
   });
-}
-setTimeout(finalSweep, 1200); // run after page scripts
+
+  // mock contact send (this is a demo; connect to a real email/API if needed)
+  function mockSend(){
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const status = document.getElementById('sendStatus');
+    if(!name || !email){ status.textContent = 'Please enter name and email.'; return; }
+    status.textContent = 'Sending...';
+    setTimeout(()=> {
+      status.textContent = 'Message sent (demo). We will email you back soon.';
+      document.getElementById('contactForm').reset();
+    }, 900);
+  }
+
+  // keyboard escape to close modal
+  document.addEventListener('keydown', e=>{
+    if(e.key === 'Escape') closeModal();
+  });
+
+  // quick on-load: show all
+  document.addEventListener('DOMContentLoaded', ()=> {
+    // ensure that cards will appear
+    cards.forEach(c=>c.style.display='block');
+  });
 </script>
+
 </body>
 </html>
